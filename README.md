@@ -1,34 +1,182 @@
 # Home Assistant Nemy Integration
 
-This is a custom integration for Home Assistant that integrates with the Nemy API to provide real-time electricity pricing and renewable energy information for the Australian National Electricity Market (NEM).
+[![HACS Integration][hacsbadge]][hacs]
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/domalab/ha-nemy?style=for-the-badge)](https://github.com/domalab/ha-nemy/commits/main)
+[![License](https://img.shields.io/github/license/domalab/ha-nemy?style=for-the-badge)](./LICENSE)
+
+This custom integration for Home Assistant connects with the Nemy API to provide real-time electricity pricing and renewable energy information for the Australian National Electricity Market (NEM). Monitor electricity prices and renewable energy percentages to optimize your energy usage and reduce costs.
+
+## Overview
+
+Nemy tracks the National Electricity Market (NEM) in Australia and provides simple endpoints designed to help people align their electricity usage with times of abundant renewable energy. This integration brings that functionality directly into your Home Assistant instance.
 
 ## Features
 
-- Real-time household electricity prices
-- Wholesale dispatch prices
-- Renewable energy percentage
-- Price and renewables categories
-- Support for all NEM regions (NSW1, QLD1, SA1, TAS1, VIC1, and NEM)
+- **Real-time Price Monitoring**
+  - Household electricity prices (c/kWh)
+  - Wholesale dispatch prices ($/MWh)
+  - Price categorization (free, cheap, typical, expensive, spike)
+  - Price percentile tracking
+
+- **Renewable Energy Tracking**
+  - Current renewable energy percentage
+  - Renewable energy without rooftop solar
+  - Renewable energy percentile
+  - Status categorization (extremely green, green, typical, polluting, extremely polluting)
+
+- **Regional Support**
+  - NSW1 (New South Wales)
+  - QLD1 (Queensland)
+  - SA1 (South Australia)
+  - TAS1 (Tasmania)
+  - VIC1 (Victoria)
+  - NEM (National Market)
 
 ## Installation
 
-1. Copy this integration to your `custom_components` directory
-2. Restart Home Assistant
-3. Go to Configuration > Integrations
-4. Click the + button and search for "Nemy"
-5. Enter your API key and select your state
-6. Click Submit
+### HACS Installation (Recommended)
+1. Ensure [HACS](https://hacs.xyz/) is installed
+2. Add this repository as a custom repository in HACS:
+   - Click on HACS in the sidebar
+   - Click on "Integrations"
+   - Click the three dots in the top right corner
+   - Select "Custom repositories"
+   - Add `https://github.com/domalab/ha-nemy`
+   - Category: Integration
+3. Click "Install"
+4. Restart Home Assistant
+
+### Manual Installation
+1. Download the latest release from the releases page
+2. Copy the `custom_components/nemy` directory to your Home Assistant's `custom_components` directory
+3. Restart Home Assistant
 
 ## Configuration
 
-The integration requires:
-- Nemy API Key (from RapidAPI)
-- State selection (NSW1, QLD1, SA1, TAS1, VIC1, or NEM)
+### Prerequisites
+- A RapidAPI account with API key (available at [RapidAPI - Nemy](https://rapidapi.com/nemy-nemy-default/api/nemy))
+- Your NEM region code (NSW1, QLD1, SA1, TAS1, VIC1, or NEM)
+
+### Setup Steps
+1. In Home Assistant, go to **Configuration** → **Integrations**
+2. Click the **+ ADD INTEGRATION** button
+3. Search for "Nemy"
+4. Enter your:
+   - RapidAPI key
+   - State/Region code
+5. Click "Submit"
 
 ## Available Sensors
 
-- Household Price (c/kWh)
-- Dispatch Price ($/MWh)
-- Renewables Percentage (%)
-- Renewables Category (extremely green, green, typical, polluting, extremely polluting)
-- Price Category (free, cheap, typical, expensive, spike)
+| Sensor | Description | Unit |
+|--------|-------------|------|
+| `sensor.nemy_household_price` | Current household electricity price | c/kWh |
+| `sensor.nemy_dispatch_price` | Current wholesale dispatch price | $/MWh |
+| `sensor.nemy_renewables_percentage` | Current renewable energy percentage | % |
+| `sensor.nemy_renewables_category` | Current renewables status | text |
+| `sensor.nemy_price_category` | Current price status | text |
+
+### Sensor Details
+
+#### Price Categories
+- **Free**: Extremely low or negative prices
+- **Cheap**: Below average prices
+- **Typical**: Average price range
+- **Expensive**: Above average prices
+- **Spike**: Significantly high prices
+
+#### Renewable Categories
+- **Extremely Green**: Very high renewable percentage
+- **Green**: Above average renewable percentage
+- **Typical**: Average renewable percentage
+- **Polluting**: Below average renewable percentage
+- **Extremely Polluting**: Very low renewable percentage
+
+## Usage Examples
+
+### Automations
+
+```yaml
+# Turn on pool pump when electricity is cheap
+automation:
+  - alias: "Pool Pump - Cheap Power"
+    trigger:
+      - platform: state
+        entity_id: sensor.nemy_price_category
+        to: 'cheap'
+    action:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.pool_pump
+
+# Charge EV during high renewable periods
+automation:
+  - alias: "EV Charging - Green Power"
+    trigger:
+      - platform: state
+        entity_id: sensor.nemy_renewables_category
+        to: 'extremely green'
+    condition:
+      - condition: numeric_state
+        entity_id: sensor.ev_battery_level
+        below: 80
+    action:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.ev_charger
+```
+
+## Error Handling
+
+The integration includes robust error handling for:
+- API connection issues
+- Data validation
+- Rate limiting
+- Network timeouts
+
+## Advanced Configuration
+
+### Update Frequency
+The integration polls the Nemy API every 5 minutes by default. This can be adjusted in `const.py` if needed.
+
+### Rate Limiting
+The integration respects RapidAPI's rate limits and includes automatic handling of rate limit responses.
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Cannot Connect Error**
+   - Verify your API key is correct
+   - Check your internet connection
+   - Ensure RapidAPI service is available
+
+2. **Invalid State Error**
+   - Verify you're using a valid state code (NSW1, QLD1, SA1, TAS1, VIC1, or NEM)
+
+3. **No Data Updated**
+   - Check the Home Assistant logs for any error messages
+   - Verify your API key hasn't expired
+   - Check your rate limit usage in RapidAPI dashboard
+
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) first.
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the Apache License - see the [LICENSE](LICENSE) file for details.
+
+## Credits
+
+- Developed by [domalab](https://github.com/domalab)
+- Based on the [Nemy API](https://rapidapi.com/nemy-nemy-default/api/nemy)
+
+[hacs]: https://github.com/custom-components/hacs
+[hacsbadge]: https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge
