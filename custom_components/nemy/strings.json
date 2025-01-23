@@ -3,15 +3,62 @@
         "step": {
             "user": {
                 "title": "Set up Nemy",
-                "description": "Enter your Nemy API credentials",
+                "description": "Enter your RapidAPI key for the Nemy API. Make sure you have subscribed to the API on RapidAPI and your subscription is active.",
                 "data": {
-                    "api_key": "API Key",
+                    "api_key": "RapidAPI Key",
                     "state": "State"
                 }
             }
         },
         "error": {
-            "cannot_connect": "Failed to connect to the API"
+            "cannot_connect": "Failed to connect to the API. Please check your internet connection and try again.",
+            "invalid_auth": "Invalid authentication. Please check your API key.",
+            "invalid_api_key": "Invalid API key. Please verify your RapidAPI key.",
+            "subscription_required": "Access denied. Please ensure you have subscribed to the Nemy API on RapidAPI and your subscription is active.",
+            "rate_limit": "API rate limit exceeded. Please try again in a few minutes.",
+            "unknown": "Unexpected error occurred. Please check the logs for more details."
+        }
+    },
+    "entity": {
+        "sensor": {
+            "price_household": {
+                "name": "Household Price",
+                "state_attributes": {
+                    "percentile": "Price Percentile"
+                }
+            },
+            "price_dispatch": {
+                "name": "Dispatch Price"
+            },
+            "renewables": {
+                "name": "Renewables Percentage",
+                "state_attributes": {
+                    "percentile": "Renewables Percentile"
+                }
+            },
+            "renewables_no_rooftop": {
+                "name": "Grid Renewables"
+            },
+            "renewables_category": {
+                "name": "Renewables Category",
+                "state": {
+                    "extremely_green": "Extremely Green",
+                    "green": "Green",
+                    "typical": "Typical",
+                    "polluting": "Polluting",
+                    "extremely_polluting": "Extremely Polluting"
+                }
+            },
+            "price_category": {
+                "name": "Price Category",
+                "state": {
+                    "free": "Free",
+                    "cheap": "Cheap",
+                    "typical": "Typical",
+                    "expensive": "Expensive",
+                    "spike": "Price Spike"
+                }
+            }
         }
     }
 }

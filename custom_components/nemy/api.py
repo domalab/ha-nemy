@@ -4,8 +4,6 @@ import async_timeout
 from datetime import datetime, timedelta
 from collections import deque
 import logging
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -108,13 +106,22 @@ class NemyApi:
                     raise NemyDataValidationError(
                         f"Invalid percentile value for {field}: {value}"
                     )
-                if field.startswith("renewables") and not 0 <= value <= 100:
+                # Special handling for renewable fields
+                if field == "renewables_no_rooftop":
+                    if value < -1 or value > 100:
+                        raise NemyDataValidationError(
+                            f"Invalid percentage value for {field}: {value}"
+                        )
+                elif field.startswith("renewables"):
+                    # Allow slightly negative values with -0.1 tolerance
+                    if value < -0.1 or value > 100:
+                        raise NemyDataValidationError(
+                            f"Invalid percentage value for {field}: {value}"
+                        )
+                # Only validate household prices for negative values
+                if field == "price_household" and value < 0:
                     raise NemyDataValidationError(
-                        f"Invalid percentage value for {field}: {value}"
-                    )
-                if field.startswith("price") and value < 0:
-                    raise NemyDataValidationError(
-                        f"Invalid negative price value for {field}: {value}"
+                        f"Invalid negative household price value: {value}"
                     )
             except (ValueError, TypeError):
                 raise NemyDataValidationError(
