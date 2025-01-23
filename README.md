@@ -36,16 +36,7 @@ Nemy tracks the National Electricity Market (NEM) in Australia and provides simp
 
 ### HACS Installation (Recommended)
 
-1. Ensure [HACS](https://hacs.xyz/) is installed
-2. Add this repository as a custom repository in HACS:
-   - Click on HACS in the sidebar
-   - Click on "Integrations"
-   - Click the three dots in the top right corner
-   - Select "Custom repositories"
-   - Add `https://github.com/domalab/ha-nemy`
-   - Category: Integration
-3. Click "Install"
-4. Restart Home Assistant
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=domalab&repository=ha-nemy&category=integration)
 
 ### Manual Installation
 
