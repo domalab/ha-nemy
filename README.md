@@ -164,10 +164,5 @@ The integration respects RapidAPI's rate limits and includes automatic handling 
 
 This project is licensed under the Apache License - see the [LICENSE](LICENSE) file for details.
 
-## Credits
-
-- Developed by [domalab](https://github.com/domalab)
-- Based on the [Nemy API](https://rapidapi.com/nemy-nemy-default/api/nemy)
-
 [hacs]: https://github.com/custom-components/hacs
 [hacsbadge]: https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge
