@@ -49,6 +49,7 @@ Nemy tracks the National Electricity Market (NEM) in Australia and provides simp
 ### Prerequisites
 
 - A RapidAPI account with API key (available at [RapidAPI - Nemy](https://rapidapi.com/nemy-nemy-default/api/nemy))
+- nemy on RapidAPI is a freemium service. There is a limited free tier available and a selection of recurring monthly subscription plans.
 - Your NEM region code (NSW1, QLD1, SA1, TAS1, VIC1, or NEM)
 
 ### Setup Steps
