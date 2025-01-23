@@ -35,6 +35,7 @@ Nemy tracks the National Electricity Market (NEM) in Australia and provides simp
 ## Installation
 
 ### HACS Installation (Recommended)
+
 1. Ensure [HACS](https://hacs.xyz/) is installed
 2. Add this repository as a custom repository in HACS:
    - Click on HACS in the sidebar
@@ -47,6 +48,7 @@ Nemy tracks the National Electricity Market (NEM) in Australia and provides simp
 4. Restart Home Assistant
 
 ### Manual Installation
+
 1. Download the latest release from the releases page
 2. Copy the `custom_components/nemy` directory to your Home Assistant's `custom_components` directory
 3. Restart Home Assistant
@@ -54,10 +56,12 @@ Nemy tracks the National Electricity Market (NEM) in Australia and provides simp
 ## Configuration
 
 ### Prerequisites
+
 - A RapidAPI account with API key (available at [RapidAPI - Nemy](https://rapidapi.com/nemy-nemy-default/api/nemy))
 - Your NEM region code (NSW1, QLD1, SA1, TAS1, VIC1, or NEM)
 
 ### Setup Steps
+
 1. In Home Assistant, go to **Configuration** → **Integrations**
 2. Click the **+ ADD INTEGRATION** button
 3. Search for "Nemy"
@@ -79,6 +83,7 @@ Nemy tracks the National Electricity Market (NEM) in Australia and provides simp
 ### Sensor Details
 
 #### Price Categories
+
 - **Free**: Extremely low or negative prices
 - **Cheap**: Below average prices
 - **Typical**: Average price range
@@ -86,6 +91,7 @@ Nemy tracks the National Electricity Market (NEM) in Australia and provides simp
 - **Spike**: Significantly high prices
 
 #### Renewable Categories
+
 - **Extremely Green**: Very high renewable percentage
 - **Green**: Above average renewable percentage
 - **Typical**: Average renewable percentage
@@ -129,6 +135,7 @@ automation:
 ## Error Handling
 
 The integration includes robust error handling for:
+
 - API connection issues
 - Data validation
 - Rate limiting
@@ -137,9 +144,11 @@ The integration includes robust error handling for:
 ## Advanced Configuration
 
 ### Update Frequency
+
 The integration polls the Nemy API every 5 minutes by default. This can be adjusted in `const.py` if needed.
 
 ### Rate Limiting
+
 The integration respects RapidAPI's rate limits and includes automatic handling of rate limit responses.
 
 ## Troubleshooting
